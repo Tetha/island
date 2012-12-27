@@ -22,4 +22,9 @@ public class ProjectileState {
 
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return String.format("ProjectileState(x=%d,y=%d,dx=%d,dy=%d,type=%s)", x, y, dx, dy, type);
+    }
 }

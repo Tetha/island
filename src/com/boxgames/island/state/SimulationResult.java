@@ -12,4 +12,20 @@ public class SimulationResult {
         assert !states.isEmpty();
         this.states = Collections.unmodifiableList(new LinkedList<SimulationState>(states));
     }
+
+    public int numberOfStates() {
+        return states.size();
+    }
+
+    public SimulationState getState(int index) {
+        return states.get(index);
+    }
+
+    public SimulationState lastState() {
+        return states.get(states.size()-1);
+    }
+
+    public SimulationState firstState() {
+        return states.get(0);
+    }
 }

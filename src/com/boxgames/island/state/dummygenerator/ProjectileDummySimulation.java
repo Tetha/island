@@ -24,12 +24,12 @@ public class ProjectileDummySimulation implements DummySimulationGenerator {
 
         final List<SimulationState> states = new LinkedList<SimulationState>();
         for (int i = 0; i < simulationLength; i++) {
-            final double timeFraction = i / simulationLength;
+            final double timeFraction = (double)i / simulationLength;
             final int oX = (int)((maxX - minX) * timeFraction);
             final int x = minX + oX;
 
             final ProjectileState state = new ProjectileState(x, constantY, dX, 0, ProjectileType.LASER);
-            final SimulationState thisState = new SimulationState(Collections.singletonList(state));
+            final SimulationState thisState = new SimulationState(Collections.singletonMap(0, state));
             states.add(thisState);
         }
         return new SimulationResult(states);
