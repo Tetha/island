@@ -10,7 +10,7 @@ public class SimulationResult {
     public SimulationResult(List<SimulationState> states) {
         assert states != null;
         assert !states.isEmpty();
-        this.states = Collections.unmodifiableList(new LinkedList<SimulationState>(states));
+        this.states = Collections.unmodifiableList(new LinkedList<>(states));
     }
 
     public int numberOfStates() {

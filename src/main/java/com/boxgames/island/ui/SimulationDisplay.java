@@ -2,9 +2,7 @@ package com.boxgames.island.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -12,7 +10,9 @@ import com.boxgames.island.balancing.EngineConst;
 import com.boxgames.island.state.ProjectileState;
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.SimulationState;
+import com.boxgames.island.state.TowerState;
 
+@SuppressWarnings("serial")
 public class SimulationDisplay extends JPanel {
     private final SimulationResult displayedSimulationResult;
     private int simulationStartMS;
@@ -37,7 +37,12 @@ public class SimulationDisplay extends JPanel {
         g.setColor(Color.GREEN);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        final Set<Integer> drawnStates = new HashSet<Integer>();
+        drawProjectiles(g, currentStatePair, fractionOfState);
+    }
+
+    private static void drawProjectiles(Graphics g,
+                                        final SimulationStatePair currentStatePair,
+                                        final double fractionOfState) {
         for (final Map.Entry<Integer, ProjectileState> state : currentStatePair.earlierState.projectileStates.entrySet()) {
             final Integer stateId = state.getKey();
             final ProjectileState earlyState = state.getValue();
@@ -55,6 +60,18 @@ public class SimulationDisplay extends JPanel {
         }
     }
 
+    private static void drawTowers(Graphics g,
+                                   final SimulationStatePair currentStatePair,
+                                   final double fractionOfState) {
+        for (final Map.Entry<Integer, TowerState> state : currentStatePair.earlierState.towerStates.entrySet()) {
+            final Integer stateId = state.getKey();
+            final TowerState earlyState = state.getValue();
+            final TowerState lateState = currentStatePair.laterState.towerStates.get(stateId);
+
+            if (lateState == null) continue;
+
+        }
+    }
     private double getFractionOfCurrentState(long currentTimeMS) {
         return ((1000.0) / EngineConst.SIMULATION_TICKS_PER_SECOND) / (currentTimeMS - simulationStartMS);
     }
@@ -62,16 +79,16 @@ public class SimulationDisplay extends JPanel {
     private SimulationStatePair getSimulationStatePair(long currentTimeMS) {
         if (!simulationRunning) {
             return new SimulationStatePair(displayedSimulationResult.firstState(),
-                    displayedSimulationResult.firstState());
+                                           displayedSimulationResult.firstState());
         }
 
         final int currentSimulationStateIndex = getSimulationStateIndex(currentTimeMS);
         if (displayedSimulationResult.numberOfStates() <= currentSimulationStateIndex+1) {
             return new SimulationStatePair(displayedSimulationResult.lastState(),
-                    displayedSimulationResult.lastState());
+                                           displayedSimulationResult.lastState());
         }
         return new SimulationStatePair(displayedSimulationResult.getState(currentSimulationStateIndex),
-                displayedSimulationResult.getState(currentSimulationStateIndex+1));
+                                       displayedSimulationResult.getState(currentSimulationStateIndex+1));
     }
 
     private int getSimulationStateIndex(long currentTimeMS) {
