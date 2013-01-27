@@ -26,7 +26,7 @@ public class AngleMath {
     }
 
     public static boolean isNormalizedDegree(int degree) {
-        return 0 <= degree && degree <= 36000;
+        return 0 <= degree && degree < 36000;
     }
 
 	/**

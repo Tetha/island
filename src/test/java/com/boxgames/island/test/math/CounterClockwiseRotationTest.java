@@ -1,8 +1,10 @@
-package com.boxgames.island.math;
+package com.boxgames.island.test.math;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.boxgames.island.math.AngleMath;
 
 public class CounterClockwiseRotationTest {
     @Test
@@ -23,7 +25,7 @@ public class CounterClockwiseRotationTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void startOutofUpperRange() {
-        AngleMath.counterClockwiseTurnInDegrees(36001, 0);
+        AngleMath.counterClockwiseTurnInDegrees(36000, 0);
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -33,7 +35,7 @@ public class CounterClockwiseRotationTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void endOutOfUpperRange() {
-        AngleMath.counterClockwiseTurnInDegrees(0, 36001);
+        AngleMath.counterClockwiseTurnInDegrees(0, 36000);
     }
 
 }
