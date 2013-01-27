@@ -21,7 +21,7 @@ public class AngleMath {
         if (!isNormalizedDegree(result)) {
             result += 36000;
         }
-        assert isNormalizedDegree(result);
+        assert isNormalizedDegree(result) : result + " not normalized";
         return result;
     }
 
@@ -43,7 +43,16 @@ public class AngleMath {
         if (!isNormalizedDegree(result)) {
             result += 36000;
         }
-        assert isNormalizedDegree(result);
+        assert isNormalizedDegree(result) : result + " not normalized";
         return result;
+	}
+
+	public static double degreesToRadian(int degrees) {
+		if (!isNormalizedDegree(degrees)) throw new IllegalArgumentException();
+		int rotatedDegrees = 36000 -(degrees - 9000);
+		if (!isNormalizedDegree(rotatedDegrees)) rotatedDegrees -= 36000;
+		assert isNormalizedDegree(rotatedDegrees) : rotatedDegrees + " not normalized";
+		return (rotatedDegrees / 18000.0)* Math.PI;
+		
 	}
 }
