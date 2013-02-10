@@ -2,11 +2,14 @@ package com.boxgames.island.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
 import com.boxgames.island.balancing.EngineConst;
+import com.boxgames.island.balancing.LevelConst;
+import com.boxgames.island.math.AngleMath;
 import com.boxgames.island.state.ProjectileState;
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.SimulationState;
@@ -27,8 +30,8 @@ public class SimulationDisplay extends JPanel {
     }
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
         final long currentTimeMS = System.currentTimeMillis();
         final SimulationStatePair currentStatePair = getSimulationStatePair(currentTimeMS);
@@ -38,6 +41,7 @@ public class SimulationDisplay extends JPanel {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         drawProjectiles(g, currentStatePair, fractionOfState);
+        drawTowers(g, currentStatePair, fractionOfState);
     }
 
     private static void drawProjectiles(Graphics g,
@@ -70,6 +74,24 @@ public class SimulationDisplay extends JPanel {
 
             if (lateState == null) continue;
 
+            final int dx = lateState.x - earlyState.x;
+            final int dy = lateState.y - earlyState.y;
+            final int dO = lateState.orientation - earlyState.orientation;
+            
+            final int x = (int) (earlyState.x*LevelConst.TILE_WIDTH_IN_PIXELS + fractionOfState * dx);
+            final int y = (int) (earlyState.y*LevelConst.TILE_HEIGHT_IN_PIXELS + fractionOfState * dy);
+            final int orientation = (int) (earlyState.orientation + fractionOfState * dO);
+            
+            System.out.println(orientation);
+            g.setColor(Color.BLUE);
+            g.fillOval(x - 10, y - 10, 20, 20);
+            
+            Graphics2D barrelGraphics = (Graphics2D)g.create();
+            barrelGraphics.setColor(Color.BLUE);
+            barrelGraphics.translate(x, y);
+            barrelGraphics.rotate(-(AngleMath.degreesToRadian(orientation) + Math.PI/2));
+            barrelGraphics.fillRect(-5, 0, 10, 30);
+            barrelGraphics.dispose();
         }
     }
     private double getFractionOfCurrentState(long currentTimeMS) {

@@ -9,6 +9,7 @@ import javax.swing.Timer;
 
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.dummygenerator.ProjectileDummySimulation;
+import com.boxgames.island.state.dummygenerator.TurretDummySimulator;
 import com.boxgames.island.ui.SimulationDisplay;
 
 public class Main {
@@ -19,7 +20,7 @@ public class Main {
         gameWindow.setResizable(false);
         gameWindow.setPreferredSize(new Dimension(500, 500));
 
-        final SimulationResult displayedDummyResult = new ProjectileDummySimulation().generateDummySimulation();
+        final SimulationResult displayedDummyResult = new TurretDummySimulator().generateDummySimulation();
         final SimulationDisplay simulationDisplay = new SimulationDisplay(displayedDummyResult);
         gameWindow.add(simulationDisplay);
         new Timer(16, new ActionListener() {
