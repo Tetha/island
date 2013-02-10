@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import com.boxgames.island.state.SimulationResult;
-import com.boxgames.island.state.dummygenerator.ProjectileDummySimulation;
 import com.boxgames.island.state.dummygenerator.TurretDummySimulator;
 import com.boxgames.island.ui.SimulationDisplay;
 
