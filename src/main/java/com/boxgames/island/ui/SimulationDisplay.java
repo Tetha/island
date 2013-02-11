@@ -74,12 +74,12 @@ public class SimulationDisplay extends JPanel {
 
             if (lateState == null) continue;
 
-            final int dx = lateState.x - earlyState.x;
-            final int dy = lateState.y - earlyState.y;
+            final int dx = lateState.xInTiles - earlyState.xInTiles;
+            final int dy = lateState.yInTiles - earlyState.yInTiles;
             final int dO = lateState.orientation - earlyState.orientation;
             
-            final int x = (int) (earlyState.x*LevelConst.TILE_WIDTH_IN_PIXELS + fractionOfState * dx);
-            final int y = (int) (earlyState.y*LevelConst.TILE_HEIGHT_IN_PIXELS + fractionOfState * dy);
+            final int x = (int) (earlyState.xInTiles*LevelConst.TILE_WIDTH_IN_PIXELS + fractionOfState * dx);
+            final int y = (int) (earlyState.yInTiles*LevelConst.TILE_HEIGHT_IN_PIXELS + fractionOfState * dy);
             final int orientation = (int) (earlyState.orientation + fractionOfState * dO);
             
             System.out.println(orientation);

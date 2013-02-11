@@ -1,16 +1,16 @@
 package com.boxgames.island.state;
 
 public class TowerState {
-    public final int x;
-    public final int y;
+    public final int xInTiles;
+    public final int yInTiles;
 
-    /** degrees * 100 */
+    /** @see AngleMath */
     public final int orientation;
     public final int msToNextShot;
 
     public TowerState(int x, int y, int orientation, int msToNextShot) {
-        this.x = x;
-        this.y = y;
+        this.xInTiles = x;
+        this.yInTiles = y;
         this.orientation = orientation;
         this.msToNextShot = msToNextShot;
     }
