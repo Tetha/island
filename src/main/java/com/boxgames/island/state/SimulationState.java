@@ -12,12 +12,19 @@ public class SimulationState {
     /** tower state id -> state */
     public final Map<Integer, TowerState> towerStates;
 
+    /** robot state id -> state */
+    public final Map<Integer, RobotState> robotStates;
+    
     public SimulationState(Map<Integer, ProjectileState> projectileStates,
-            Map<Integer, TowerState> towerStates) {
+                           Map<Integer, TowerState> towerStates,
+                           Map<Integer, RobotState> robotStates) {
         assert projectileStates != null;
         assert towerStates != null;
+        assert robotStates != null;
+        
         this.projectileStates = Collections.unmodifiableMap(new HashMap<>(projectileStates));
         this.towerStates = Collections.unmodifiableMap(new HashMap<>(towerStates));
+        this.robotStates = Collections.unmodifiableMap(new HashMap<>(robotStates));
     }
 
     @Override
