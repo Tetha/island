@@ -11,6 +11,7 @@ import com.boxgames.island.balancing.EngineConst;
 import com.boxgames.island.balancing.LevelConst;
 import com.boxgames.island.math.AngleMath;
 import com.boxgames.island.state.ProjectileState;
+import com.boxgames.island.state.RobotState;
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.SimulationState;
 import com.boxgames.island.state.TowerState;
@@ -42,6 +43,7 @@ public class SimulationDisplay extends JPanel {
 
         drawProjectiles(g, currentStatePair, fractionOfState);
         drawTowers(g, currentStatePair, fractionOfState);
+        drawRobots(g, currentStatePair, fractionOfState);
     }
 
     private static void drawProjectiles(Graphics g,
@@ -82,7 +84,6 @@ public class SimulationDisplay extends JPanel {
             final int y = (int) (earlyState.yInTiles*LevelConst.TILE_HEIGHT_IN_PIXELS + fractionOfState * dy);
             final int orientation = (int) (earlyState.orientation + fractionOfState * dO);
             
-            System.out.println(orientation);
             g.setColor(Color.BLUE);
             g.fillOval(x - 10, y - 10, 20, 20);
             
@@ -92,6 +93,17 @@ public class SimulationDisplay extends JPanel {
             barrelGraphics.rotate(-(AngleMath.degreesToRadian(orientation) + Math.PI/2));
             barrelGraphics.fillRect(-5, 0, 10, 30);
             barrelGraphics.dispose();
+        }
+    }
+    
+    private static void drawRobots(Graphics g, final SimulationStatePair currentStatePair,
+                                   final double fractionOfState) {
+        for (final Map.Entry<Integer, RobotState> idStatePair : currentStatePair.earlierState.robotStates.entrySet()) {
+            Integer stateId = idStatePair.getKey();
+            RobotState earlyState = idStatePair.getValue();
+            RobotState latestate = currentStatePair.laterState.robotStates.get(stateId);
+            
+            
         }
     }
     private double getFractionOfCurrentState(long currentTimeMS) {
