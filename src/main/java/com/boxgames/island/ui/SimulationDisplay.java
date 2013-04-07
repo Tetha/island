@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import com.boxgames.island.balancing.EngineConst;
 import com.boxgames.island.state.ProjectileState;
+import com.boxgames.island.state.ProjectileStateValue;
 import com.boxgames.island.state.RobotState;
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.SimulationState;
@@ -45,7 +46,7 @@ public class SimulationDisplay extends JPanel {
 	}
 	
 	private static void drawProjectiles(Graphics g, final SimulationStatePair currentStatePair, final double fractionOfState) {
-		for (final Map.Entry<Integer, ProjectileState> state : currentStatePair.earlierState.projectileStates.entrySet()) {
+		for (final Map.Entry<Integer, ProjectileStateValue> state : currentStatePair.earlierState.projectileStates.entrySet()) {
 			final Integer stateId = state.getKey();
 			final ProjectileState earlyState = state.getValue();
 			final ProjectileState lateState = currentStatePair.laterState.projectileStates.get(stateId);
@@ -54,13 +55,7 @@ public class SimulationDisplay extends JPanel {
 				continue;
 			}
 			
-			final int dx = lateState.x - earlyState.x;
-			final int dy = lateState.y - earlyState.y;
-			
-			final int x = (int) (earlyState.x + fractionOfState * dx);
-			final int y = (int) (earlyState.y + fractionOfState * dy);
-			g.setColor(Color.RED);
-			g.drawOval(x - 5, y - 5, 10, 10);
+			new IntermediateGraphicalProjectileState(fractionOfState, earlyState, lateState).drawTo(g);
 		}
 	}
 	

@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.boxgames.island.balancing.EngineConst;
 import com.boxgames.island.balancing.LevelConst;
-import com.boxgames.island.state.ProjectileState;
-import com.boxgames.island.state.ProjectileState.ProjectileType;
+import com.boxgames.island.state.ProjectileStateValue;
+import com.boxgames.island.state.ProjectileStateValue.ProjectileType;
 import com.boxgames.island.state.RobotState;
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.SimulationState;
@@ -30,7 +30,7 @@ public class ProjectileDummySimulation implements DummySimulationGenerator {
             final int oX = (int)((maxX - minX) * timeFraction);
             final int x = minX + oX;
 
-            final ProjectileState state = new ProjectileState(x, constantY, dX, 0, ProjectileType.LASER);
+            final ProjectileStateValue state = new ProjectileStateValue(x, constantY, dX, 0, ProjectileType.LASER);
             final SimulationState thisState = new SimulationState(Collections.singletonMap(0, state),
                                                                   Collections.<Integer, TowerState>emptyMap(),
                                                                   Collections.<Integer, RobotState>emptyMap());

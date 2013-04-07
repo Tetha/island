@@ -1,30 +1,17 @@
 package com.boxgames.island.state;
 
-public class ProjectileState {
-    public enum ProjectileType { LASER; }
+import com.boxgames.island.state.ProjectileStateValue.ProjectileType;
 
-    public final int x;
-    public final int y;
-
-    public final int dx;
-    public final int dy;
-
-    public final ProjectileType type;
-
-    public ProjectileState(int x, int y, int dx, int dy, ProjectileType type) {
-        assert type != null;
-
-        this.x = x;
-        this.y = y;
-
-        this.dx = dx;
-        this.dy = dy;
-
-        this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("ProjectileState(x=%d,y=%d,dx=%d,dy=%d,type=%s)", x, y, dx, dy, type);
-    }
+public interface ProjectileState {
+	
+	public abstract int getX();
+	
+	public abstract int getY();
+	
+	public abstract int getDx();
+	
+	public abstract int getDy();
+	
+	public abstract ProjectileType getType();
+	
 }
