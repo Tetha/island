@@ -2,14 +2,11 @@ package com.boxgames.island.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
 import com.boxgames.island.balancing.EngineConst;
-import com.boxgames.island.balancing.LevelConst;
-import com.boxgames.island.math.AngleMath;
 import com.boxgames.island.state.ProjectileState;
 import com.boxgames.island.state.RobotState;
 import com.boxgames.island.state.SimulationResult;
@@ -77,20 +74,7 @@ public class SimulationDisplay extends JPanel {
 				continue;
 			}
 			
-			TowerState drawnTowerState = new IntermediateGraphicalTowerState(fractionOfState, earlyState, lateState);
-			final int x = drawnTowerState.getxInTiles() * LevelConst.TILE_WIDTH_IN_PIXELS;
-			final int y = drawnTowerState.getyInTiles() * LevelConst.TILE_WIDTH_IN_PIXELS;
-			final int orientation = drawnTowerState.getOrientation();
-			
-			g.setColor(Color.BLUE);
-			g.fillOval(x - 10, y - 10, 20, 20);
-			
-			Graphics2D barrelGraphics = (Graphics2D) g.create();
-			barrelGraphics.setColor(Color.BLUE);
-			barrelGraphics.translate(x, y);
-			barrelGraphics.rotate(-(AngleMath.degreesToRadian(orientation) + Math.PI / 2));
-			barrelGraphics.fillRect(-5, 0, 10, 30);
-			barrelGraphics.dispose();
+			new IntermediateGraphicalTowerState(fractionOfState, earlyState, lateState).drawTo(g);
 		}
 	}
 	

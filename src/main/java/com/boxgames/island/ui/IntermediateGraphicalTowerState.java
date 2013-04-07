@@ -1,16 +1,21 @@
 package com.boxgames.island.ui;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import com.boxgames.island.balancing.LevelConst;
+import com.boxgames.island.math.AngleMath;
 import com.boxgames.island.state.TowerState;
 
-public class IntermediateGraphicalTowerState implements TowerState {
+public class IntermediateGraphicalTowerState extends IntermediateGraphicalState implements TowerState {
 	private final TowerState earlyTowerState;
 	private final TowerState lateTowerState;
-	private final double fractionOfStateProgressed;
 	
 	public IntermediateGraphicalTowerState(double fractionOfStateProgressed, TowerState earlyTowerState, TowerState lateTowerState) {
+		super(fractionOfStateProgressed);
 		this.earlyTowerState = earlyTowerState;
 		this.lateTowerState = lateTowerState;
-		this.fractionOfStateProgressed = fractionOfStateProgressed;
 	}
 	
 	@Override
@@ -23,6 +28,14 @@ public class IntermediateGraphicalTowerState implements TowerState {
 		return roundedLinearInterpolation(earlyTowerState.getyInTiles(), lateTowerState.getyInTiles());
 	}
 	
+	public int getxInPixels() {
+		return getxInTiles() * LevelConst.TILE_WIDTH_IN_PIXELS;
+	}
+	
+	public int getyInPixels() {
+		return getyInTiles() * LevelConst.TILE_WIDTH_IN_PIXELS;
+	}
+	
 	@Override
 	public int getOrientation() {
 		return roundedLinearInterpolation(earlyTowerState.getOrientation(), lateTowerState.getOrientation());
@@ -33,11 +46,16 @@ public class IntermediateGraphicalTowerState implements TowerState {
 		return roundedLinearInterpolation(earlyTowerState.getMsToNextShot(), lateTowerState.getMsToNextShot());
 	}
 	
-	private int roundedLinearInterpolation(int start, int end) {
-		return (int) Math.round(preciseLinearInterpolation(start, end));
-	}
-	
-	private double preciseLinearInterpolation(int start, int end) {
-		return start + (end - start) * fractionOfStateProgressed;
+	@Override
+	public void drawTo(Graphics g) {
+		g.setColor(Color.BLUE);
+		g.fillOval(getxInPixels() - 10, getyInPixels() - 10, 20, 20);
+		
+		Graphics2D barrelGraphics = (Graphics2D) g.create();
+		barrelGraphics.setColor(Color.BLUE);
+		barrelGraphics.translate(getxInPixels(), getyInPixels());
+		barrelGraphics.rotate(-(AngleMath.degreesToRadian(getOrientation()) + Math.PI / 2));
+		barrelGraphics.fillRect(-5, 0, 10, 30);
+		barrelGraphics.dispose();
 	}
 }
