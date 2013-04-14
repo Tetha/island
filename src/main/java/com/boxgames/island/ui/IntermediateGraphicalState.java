@@ -1,12 +1,9 @@
 package com.boxgames.island.ui;
 
-import java.awt.Graphics;
 
-public abstract class IntermediateGraphicalState {
+public abstract class IntermediateGraphicalState implements DrawableState {
 	
 	protected final double fractionOfStateProgressed;
-	
-	public abstract void drawTo(Graphics g);
 	
 	public IntermediateGraphicalState(double fractionOfStateProgressed) {
 		this.fractionOfStateProgressed = fractionOfStateProgressed;

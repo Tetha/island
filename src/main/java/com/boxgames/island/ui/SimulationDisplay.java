@@ -12,11 +12,11 @@ import com.boxgames.island.balancing.EngineConst;
 import com.boxgames.island.state.RobotState;
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.SimulationState;
-import com.boxgames.island.state.TowerState;
 
 @SuppressWarnings("serial")
 public class SimulationDisplay extends JPanel {
-	private final List<AbstractStatePairDrawer<?>> drawers = Arrays.<AbstractStatePairDrawer<?>> asList(new ProjectileDrawer());
+	private final List<AbstractStatePairDrawer<?>> drawers = Arrays.<AbstractStatePairDrawer<?>> asList(new ProjectileDrawer(),
+	                                                                                                    new TowerDrawer());
 	private final SimulationResult displayedSimulationResult;
 	private int simulationStartMS;
 	private boolean simulationRunning;
@@ -44,22 +44,7 @@ public class SimulationDisplay extends JPanel {
 		for (AbstractStatePairDrawer<?> drawer : drawers) {
 			drawer.draw(g, currentStatePair, fractionOfState);
 		}
-		drawTowers(g, currentStatePair, fractionOfState);
 		drawRobots(g, currentStatePair, fractionOfState);
-	}
-	
-	private static void drawTowers(Graphics g, final SimulationStatePair currentStatePair, final double fractionOfState) {
-		for (final Map.Entry<Integer, TowerState> state : currentStatePair.getEarlierState().towerStates.entrySet()) {
-			final Integer stateId = state.getKey();
-			final TowerState earlyState = state.getValue();
-			final TowerState lateState = currentStatePair.getLaterState().towerStates.get(stateId);
-			
-			if (lateState == null) {
-				continue;
-			}
-			
-			new IntermediateGraphicalTowerState(fractionOfState, earlyState, lateState).drawTo(g);
-		}
 	}
 	
 	private static void drawRobots(Graphics g, final SimulationStatePair currentStatePair, final double fractionOfState) {
