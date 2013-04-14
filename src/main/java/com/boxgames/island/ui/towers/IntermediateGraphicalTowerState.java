@@ -1,4 +1,4 @@
-package com.boxgames.island.ui;
+package com.boxgames.island.ui.towers;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import com.boxgames.island.balancing.LevelConst;
 import com.boxgames.island.math.AngleMath;
 import com.boxgames.island.state.TowerState;
+import com.boxgames.island.ui.IntermediateGraphicalState;
 
 public class IntermediateGraphicalTowerState extends IntermediateGraphicalState implements TowerState {
 	private final TowerState earlyTowerState;

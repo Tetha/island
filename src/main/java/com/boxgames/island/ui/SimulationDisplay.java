@@ -12,6 +12,8 @@ import com.boxgames.island.balancing.EngineConst;
 import com.boxgames.island.state.RobotState;
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.SimulationState;
+import com.boxgames.island.ui.projectile.ProjectileDrawer;
+import com.boxgames.island.ui.towers.TowerDrawer;
 
 @SuppressWarnings("serial")
 public class SimulationDisplay extends JPanel {

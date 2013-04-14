@@ -1,9 +1,11 @@
-package com.boxgames.island.ui;
+package com.boxgames.island.ui.towers;
 
 import java.util.Map;
 
 import com.boxgames.island.state.SimulationState;
 import com.boxgames.island.state.TowerState;
+import com.boxgames.island.ui.AbstractStatePairDrawer;
+import com.boxgames.island.ui.DrawableState;
 
 public final class TowerDrawer extends AbstractStatePairDrawer<TowerState> {
 	
