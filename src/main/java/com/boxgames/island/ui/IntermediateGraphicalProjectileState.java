@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import com.boxgames.island.state.ProjectileState;
 import com.boxgames.island.state.ProjectileStateValue.ProjectileType;
 
-public class IntermediateGraphicalProjectileState extends IntermediateGraphicalState implements ProjectileState {
+public class IntermediateGraphicalProjectileState extends IntermediateGraphicalState implements ProjectileState, DrawableState {
 	
 	private final ProjectileState earlyState;
 	private final ProjectileState lateState;

@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 
 public class SimulationState {
 	/** projectile state id -> state */
-	public final Map<Integer, ProjectileStateValue> projectileStates;
+	public final Map<Integer, ProjectileState> projectileStates;
 	
 	/** tower state id -> state */
 	public final Map<Integer, TowerState> towerStates;
@@ -15,7 +15,7 @@ public class SimulationState {
 	/** robot state id -> state */
 	public final Map<Integer, RobotState> robotStates;
 	
-	public SimulationState(Map<Integer, ProjectileStateValue> projectileStates, Map<Integer, TowerState> towerStates,
+	public SimulationState(Map<Integer, ProjectileState> projectileStates, Map<Integer, TowerState> towerStates,
 	                       Map<Integer, RobotState> robotStates) {
 		assert projectileStates != null;
 		assert towerStates != null;
@@ -30,7 +30,7 @@ public class SimulationState {
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
 		boolean first = true;
-		for (final Entry<Integer, ProjectileStateValue> idState : projectileStates.entrySet()) {
+		for (final Entry<Integer, ProjectileState> idState : projectileStates.entrySet()) {
 			if (!first) {
 				result.append(",");
 			}

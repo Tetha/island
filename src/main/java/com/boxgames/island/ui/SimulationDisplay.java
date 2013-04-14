@@ -2,13 +2,13 @@ package com.boxgames.island.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
 import com.boxgames.island.balancing.EngineConst;
-import com.boxgames.island.state.ProjectileState;
-import com.boxgames.island.state.ProjectileStateValue;
 import com.boxgames.island.state.RobotState;
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.SimulationState;
@@ -16,6 +16,7 @@ import com.boxgames.island.state.TowerState;
 
 @SuppressWarnings("serial")
 public class SimulationDisplay extends JPanel {
+	private final List<AbstractStatePairDrawer<?>> drawers = Arrays.<AbstractStatePairDrawer<?>> asList(new ProjectileDrawer());
 	private final SimulationResult displayedSimulationResult;
 	private int simulationStartMS;
 	private boolean simulationRunning;
@@ -40,30 +41,18 @@ public class SimulationDisplay extends JPanel {
 		g.setColor(Color.GREEN);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
-		drawProjectiles(g, currentStatePair, fractionOfState);
+		for (AbstractStatePairDrawer<?> drawer : drawers) {
+			drawer.draw(g, currentStatePair, fractionOfState);
+		}
 		drawTowers(g, currentStatePair, fractionOfState);
 		drawRobots(g, currentStatePair, fractionOfState);
 	}
 	
-	private static void drawProjectiles(Graphics g, final SimulationStatePair currentStatePair, final double fractionOfState) {
-		for (final Map.Entry<Integer, ProjectileStateValue> state : currentStatePair.earlierState.projectileStates.entrySet()) {
-			final Integer stateId = state.getKey();
-			final ProjectileState earlyState = state.getValue();
-			final ProjectileState lateState = currentStatePair.laterState.projectileStates.get(stateId);
-			
-			if (lateState == null) {
-				continue;
-			}
-			
-			new IntermediateGraphicalProjectileState(fractionOfState, earlyState, lateState).drawTo(g);
-		}
-	}
-	
 	private static void drawTowers(Graphics g, final SimulationStatePair currentStatePair, final double fractionOfState) {
-		for (final Map.Entry<Integer, TowerState> state : currentStatePair.earlierState.towerStates.entrySet()) {
+		for (final Map.Entry<Integer, TowerState> state : currentStatePair.getEarlierState().towerStates.entrySet()) {
 			final Integer stateId = state.getKey();
 			final TowerState earlyState = state.getValue();
-			final TowerState lateState = currentStatePair.laterState.towerStates.get(stateId);
+			final TowerState lateState = currentStatePair.getLaterState().towerStates.get(stateId);
 			
 			if (lateState == null) {
 				continue;
@@ -74,10 +63,10 @@ public class SimulationDisplay extends JPanel {
 	}
 	
 	private static void drawRobots(Graphics g, final SimulationStatePair currentStatePair, final double fractionOfState) {
-		for (final Map.Entry<Integer, RobotState> idStatePair : currentStatePair.earlierState.robotStates.entrySet()) {
+		for (final Map.Entry<Integer, RobotState> idStatePair : currentStatePair.getEarlierState().robotStates.entrySet()) {
 			Integer stateId = idStatePair.getKey();
 			RobotState earlyState = idStatePair.getValue();
-			RobotState latestate = currentStatePair.laterState.robotStates.get(stateId);
+			RobotState latestate = currentStatePair.getLaterState().robotStates.get(stateId);
 			
 		}
 	}
@@ -103,13 +92,21 @@ public class SimulationDisplay extends JPanel {
 		return (int) (currentTimeMS - simulationStartMS) / EngineConst.SIMULATION_TICKS_PER_SECOND;
 	}
 	
-	private static class SimulationStatePair {
+	public static class SimulationStatePair {
 		private final SimulationState earlierState;
 		private final SimulationState laterState;
 		
 		public SimulationStatePair(SimulationState earlierState, SimulationState laterState) {
 			this.earlierState = earlierState;
 			this.laterState = laterState;
+		}
+		
+		public SimulationState getLaterState() {
+			return laterState;
+		}
+		
+		public SimulationState getEarlierState() {
+			return earlierState;
 		}
 	}
 }
