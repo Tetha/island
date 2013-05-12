@@ -30,7 +30,7 @@ public class SimulationState {
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
 		boolean first = true;
-		for (final Entry<Integer, ProjectileState> idState : projectileStates.entrySet()) {
+		for (final Entry<Integer, RobotState> idState : robotStates.entrySet()) {
 			if (!first) {
 				result.append(",");
 			}

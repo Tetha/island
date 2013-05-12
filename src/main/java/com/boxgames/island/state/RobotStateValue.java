@@ -18,4 +18,9 @@ public class RobotStateValue implements RobotState {
 	public int getYInTiles() {
 		return yInTiles;
 	}
+	
+	@Override
+	public String toString() {
+		return "Robot @ (" + xInTiles + "," + yInTiles + ")";
+	}
 }

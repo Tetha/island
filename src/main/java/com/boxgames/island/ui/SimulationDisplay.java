@@ -4,21 +4,24 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 import com.boxgames.island.balancing.EngineConst;
-import com.boxgames.island.state.RobotState;
 import com.boxgames.island.state.SimulationResult;
 import com.boxgames.island.state.SimulationState;
 import com.boxgames.island.ui.projectile.ProjectileDrawer;
+import com.boxgames.island.ui.robot.RobotDrawer;
 import com.boxgames.island.ui.towers.TowerDrawer;
 
 @SuppressWarnings("serial")
 public class SimulationDisplay extends JPanel {
+	private static final Logger LOG = Logger.getLogger(SimulationDisplay.class);
 	private final List<AbstractStatePairDrawer<?>> drawers = Arrays.<AbstractStatePairDrawer<?>> asList(new ProjectileDrawer(),
-	                                                                                                    new TowerDrawer());
+	                                                                                                    new TowerDrawer(),
+	                                                                                                    new RobotDrawer());
 	private final SimulationResult displayedSimulationResult;
 	private int simulationStartMS;
 	private boolean simulationRunning;
@@ -46,16 +49,6 @@ public class SimulationDisplay extends JPanel {
 		for (AbstractStatePairDrawer<?> drawer : drawers) {
 			drawer.draw(g, currentStatePair, fractionOfState);
 		}
-		drawRobots(g, currentStatePair, fractionOfState);
-	}
-	
-	private static void drawRobots(Graphics g, final SimulationStatePair currentStatePair, final double fractionOfState) {
-		for (final Map.Entry<Integer, RobotState> idStatePair : currentStatePair.getEarlierState().robotStates.entrySet()) {
-			Integer stateId = idStatePair.getKey();
-			RobotState earlyState = idStatePair.getValue();
-			RobotState latestate = currentStatePair.getLaterState().robotStates.get(stateId);
-			
-		}
 	}
 	
 	private double getFractionOfCurrentState(long currentTimeMS) {
@@ -68,6 +61,7 @@ public class SimulationDisplay extends JPanel {
 		}
 		
 		final int currentSimulationStateIndex = getSimulationStateIndex(currentTimeMS);
+		LOG.debug("CurrentSimulationStateIndex = " + currentSimulationStateIndex);
 		if (displayedSimulationResult.numberOfStates() <= currentSimulationStateIndex + 1) {
 			return new SimulationStatePair(displayedSimulationResult.lastState(), displayedSimulationResult.lastState());
 		}
